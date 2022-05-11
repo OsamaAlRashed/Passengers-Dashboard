@@ -1,0 +1,31 @@
+{
+  "auth": {
+    "login": {
+      "title": "log in",
+      "welcome": "welcome back to",
+      "nice-to": "nice to see you",
+      "form": {
+        "username": {
+          "label": "user name or (E-mail)",
+          "placeholder": "type here user name or (E-mail)..."
+        },
+        "password": {
+          "label": "password",
+          "placeholder": "type here password..."
+        },
+        "rememberme": {
+          "label": "remember me"
+        },
+        "alert": "password or user name is wrong"
+      }
+    },
+    "signup": {
+      "title": "sign up",
+      "welcome": "welcome to",
+      "we-are-happy": "we are happy to see you",
+      "form": {
+      }
+    },
+    "log-out": "log out"
+  }
+}

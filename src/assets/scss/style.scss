@@ -1,0 +1,96 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+$theme-colors: (
+  // #6C63FF
+  "primary": #263284,
+  "light": #ffbf40,
+);
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~bootstrap-vue/dist/bootstrap-vue.css";
+
+@font-face {
+  font-family: 'NotoKufi';
+  src: url('/assets/fonts/Arabic/NotoKufiArabic-VariableFont_wght.ttf'); 
+}
+
+@font-face {
+  font-family: 'LexendDeca';
+  src: url('/assets/fonts/English/LexendDeca-VariableFont_wght.ttf');
+}
+
+// styles
+:root {
+  --font-color: #4b4b4b;
+  --header-text-color: #2c2c2c;
+  --blue-light: #f5f5f5;
+}
+
+@import "./helpers/variables";
+* {
+  letter-spacing: .02em;
+}
+[dir="ltr"] {
+  * {
+    font-family: 'NotoKufi', sans-serif; 
+  }
+}
+[dir="rtl"] {
+  * {
+    font-family: 'LexendDeca', sans-serif; 
+  }
+}
+a:hover {
+  text-decoration: none!important;
+}
+a:focus {
+  box-shadow: none!important;
+}
+
+.title {
+  font-weight: bold;
+  color: var(--header-text-color)!important;
+  text-transform: capitalize;
+  border-bottom: solid 1px $borderColor;
+  padding-bottom: .75rem;
+  margin-bottom: .75rem;
+}
+
+.card {
+  border-radius: 16px;
+  border-color: transparent;
+  overflow: hidden;
+}
+.btn {
+  text-transform: capitalize;
+  box-shadow: $shadow;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  &:hover {
+    box-shadow: none!important;
+  }
+}
+// --- libs
+@import '~animate.css/animate.min.css';
+@import '~vue-good-table/src/styles/style.scss';
+
+
+// --- layout
+@import "./layout/breadcrumb";
+@import "./layout/drawer";
+@import "./layout/navbar";
+@import "./layout/content";
+
+// --- components
+
+@import "./components/swal";
+@import "./components/breadcrumb";
+@import "./components/table";
+@import "./components/forms";
+
+
+// --- pages
+@import "./page/auth";

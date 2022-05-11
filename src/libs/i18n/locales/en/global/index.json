@@ -1,0 +1,24 @@
+{
+  "titles": {
+    "home": "home",
+    "admins": "admins",
+    "shops": "shops"
+  },
+  "breadcrumb": {
+    "home": "home",
+    "admins": "admins",
+    "shops": "shops"
+  },
+  "files": {
+    "title": "(drag and drop) or click to upload"
+  },
+  "readMore": "read more",
+  "ok": "save",
+  "edit": "update",
+  "delete": "delete",
+  "details": "details",
+  "back": "cansel",
+  "cancel": "cancel",
+  "empty": "no items was found",
+  "choose-item": "choose item"
+}

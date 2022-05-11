@@ -1,0 +1,107 @@
+.drawer-list-container {
+  width: 240px;
+  transition: .4s;
+  position: relative;
+  background: #fff;
+  .ps-container {
+    height: calc(100vh - 68px);
+    .ps__rail-y,
+    .ps__rail-x {
+      z-index: 2;
+    }
+  }
+  .brand {
+    transition: .4s;
+    padding: 16px 20px 16px;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 24px;
+    height: 68px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .drawer-list {
+    display: inline-block;
+    width: calc(100% - 2px);
+    position: relative;
+    transition: .4s;
+    .drawer-togglable,
+    .drawer-list-item-link .list-group-item {
+      color: var(--font-color);
+    }
+    .list-group-item {
+      border: none;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      font-weight: bold;
+      .icon {
+        font-size: 24px;
+        display: none;
+      }
+      span {
+        // padding-left: 12px;
+        text-transform: capitalize;
+        transition: .4s;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        width: 5px;
+        height: 30px;
+        border-radius: 10px;
+        transition: .4s;
+      }
+      &.active, &:hover {
+        background: transparent;
+        color: var(--primary);
+        &::after {
+          background: var(--primary);
+        }
+      }
+    }
+    .list-item-header {
+      font-weight: bold;
+      color: var(--header-text-color)!important;
+      font-size: 16px;
+      text-transform: capitalize;
+      i {
+        font-size: 24px;
+        height: 16px;
+        line-height: .7;
+        display: none;
+      }
+      span {
+        padding: 0;
+      }
+      &::after {
+        background: transparent!important;
+      }
+    }
+  }
+  @media screen and (max-width: 992px) {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 69px;
+    height: calc(100vh - 69px);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+  }
+}
+.collapsed {
+  .drawer-list-container {
+    left: -240px;
+    @media screen and (min-width: 992px) {
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      box-shadow: none;
+    }
+  }
+}
