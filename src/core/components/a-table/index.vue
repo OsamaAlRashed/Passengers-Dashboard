@@ -39,6 +39,7 @@
                     styleClass="vgt-table condensed"
                     ref="table"
                     @on-sort-change="onSortChange"
+                    @on-row-click="onRowClick"
                     :select-options="{
                         enabled: !no_select,
                         selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
@@ -165,6 +166,9 @@ export default {
         },
         onSortChange(params) {
             this.list = sortListObjByArgName(params[0].field, params[0].type, this.items)
+        },
+        onRowClick(props){
+            this.$emit("row-click", props);
         }
     },
     watch: {

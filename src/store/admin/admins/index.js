@@ -25,7 +25,7 @@ export default {
         },
 
         updateAdmin({ commit }, payload){
-            api.post('Admin/Update', payload.dto, ({data}) => {
+            api.put('Admin/Update', payload.dto, ({data}) => {
                 commit('Update_Admin', data)
                 payload.cb();
             });
@@ -34,6 +34,10 @@ export default {
         deleteAdmin({ commit }, id){
             api.delete('Admin/Delete?id=' + id, () => {
                 commit('Delete_Admin', [id])
+            });
+        },
+        blockAdmin({ commit }, id){
+            api.put('Admin/Block?id=' + id, () => {
             });
         }
     },

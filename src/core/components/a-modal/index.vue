@@ -3,15 +3,14 @@
     <slot name="activator">
        <activaitor @ok="is = true" @search="search" :placeholder="placeholder" :title="btn_title"/>
     </slot>
-    <b-modal content-class="rounded-xl" :size="size" backdrop shadow bg-variant="white" v-model="is" >
+    <b-modal :title="title" content-class="rounded-xl" :size="size" backdrop shadow bg-variant="white" v-model="is" 
+             @ok="ok" >
         <template #header>
             <div
                 class="d-flex justify-content-between align-items-center px-2 py-3 border-bottom"
             >
                 <slot name="header">
-                    <h5 class="m-0 px-1 title">
-                        {{ title }}
-                    </h5>
+                    
                 </slot>
                 <b-button
                     variant="flat-secondary"
@@ -37,7 +36,6 @@
                         @click="hide"
                         >{{$t('cancel')}}</b-button
                     >
-                    <b-button variant="primary" @click="ok" class="px-3">{{$t('ok')}}</b-button>
                 </div>
             </slot>
         </template>

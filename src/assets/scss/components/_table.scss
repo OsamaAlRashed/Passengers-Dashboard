@@ -11,7 +11,7 @@
       th {
         background: transparent !important;
         padding: 8px 10px;
-        font-size: 14px;
+        font-size: 0.75rem;
         white-space: nowrap;
         text-transform: capitalize;
         button {
@@ -24,6 +24,7 @@
     tbody {
       tr {
         td {
+          font-size: 0.875rem;
           button {
             margin: auto;
           }

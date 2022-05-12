@@ -1,12 +1,9 @@
 <template>
   <div class="auth" ref="auth-container">
-    <div class="aside-image p-3 align-items-center">
-      <img src="/media/vector_4.svg" class="w-100" alt="vector">
-    </div>
-    <div class="auth-content">
-      <nav class="navbar">
+    <div class="auth-content w-100">
+      <!-- <nav class="navbar">
         <div>
-          <!-- <b-button
+           <b-button
             class="mr-1 title"
             to="/login"
             v-if="$route.name != 'login'"
@@ -19,13 +16,13 @@
             v-if="$route.name != 'signup'"
             variant="flat-secondary"
             >{{$t('auth.signup.title')}}</b-button
-          > -->
+          >
         </div> 
         <router-link to="/" custom>
           <a-logo-white class="d-lg-none"/>
           <a-logo-primary class="d-none d-lg-block"/>
         </router-link>
-      </nav>
+      </nav> -->
       <div class="auth-content-container">
         <transition
           :enter-active-class="'animate__animated animate__fadeInUp'"
@@ -39,6 +36,14 @@
     </div>
   </div>
 </template>
+
+<style>
+.auth-content{
+  background-image: url('~@/assets/images/Delivery company.svg');
+  background-repeat: no-repeat;
+  background-size: 96% 120%;
+}
+</style>
 
 <script>
 import { checkSize } from "@/libs/global-event.js";

@@ -19,6 +19,7 @@
   border-radius: 6px;
   padding: 0 8px;
   margin: 0!important;
+  background-color: #EAEAEA;
   input {
     box-shadow: none!important;
 
@@ -48,6 +49,7 @@
     color: red;
     box-shadow: $shadow;
     border-color: $borderColor;
+    background-color: #EAEAEA;
     border-radius: 6px!important;
     .vs__dropdown-toggle {
       background: transparent;

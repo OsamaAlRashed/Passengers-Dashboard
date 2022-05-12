@@ -46,7 +46,7 @@ export default [
     name: "admins",
     components: {
       default: () => import("@/views/admin/admins"),
-      action: () => import("@/views/admin/admins/actions"),
+      action: () => import("@/views/admin/admins/components/manage-admin.vue"),
     },
     meta: () => ({
       roles: [All],
