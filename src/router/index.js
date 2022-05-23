@@ -106,6 +106,7 @@ router.beforeEach((to, _, next) => {
       ? to.meta(to).title
       : to.meta(to).pageTitle
     : to.meta(to).breadcrumb[0].text;
+
   if (!canNavigate(to)) {
     // Redirect to login if not logged in
     if (!isLoggedIn) return next("/login");

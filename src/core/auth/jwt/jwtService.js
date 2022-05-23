@@ -122,9 +122,6 @@ export default class JwtService {
   }
 
   refreshToken() {
-    return this.axiosIns.post(this.jwtConfig.refreshEndpoint, {
-      id: currentUserId(),
-      refreshToken: this.getRefreshToken(),
-    });
+    return this.axiosIns.post(this.jwtConfig.refreshEndpoint + '?refreshToken=' + this.getRefreshToken(), {});
   }
 }

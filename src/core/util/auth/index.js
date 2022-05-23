@@ -10,7 +10,7 @@ import {
 
 export const isUserLoggedIn = () => {
   return (
-    localStorage.getItem("userData") &&
+    !!localStorage.getItem("UserData") &&!!
     localStorage.getItem(useJwt.jwtConfig.storageTokenKeyName)
   );
 };
@@ -28,7 +28,7 @@ export const canNavigate = (to) => {
   if (typeof to.meta == "function") {
     return (
       to.meta(to).roles.indexOf(All) != -1 ||
-      (userData && to.meta(to).roles.indexOf(userData[userRoleAttrName]) != -1)
+      (userData && to.meta(to).roles.filter((el) =>userData[userRoleAttrName].includes(el)).length>0  )
     );
   }
   return true;
@@ -61,7 +61,5 @@ export const currentUserRole = () => {
   return null;
 };
 export const getHomeRouteForLoggedInUser = () => {
-  const userRole = currentUserRole()
-  if (userRole === Admin) return "/admin";
   return "/";
 };

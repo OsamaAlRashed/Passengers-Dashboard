@@ -1,8 +1,8 @@
 <template>
   <div>
-    <a-table :items="admins" :columns="columns" no_select @row-click="getDetails">
+    <a-table :items="drivers" :columns="columns" no_select @row-click="getDetails">
       <template slot="items.identifierImagePath" slot-scope="{ value, props }">
-       <b-img
+        <b-img
           style="border-radius: 16px;"
           width="48"
           height="48"
@@ -12,6 +12,9 @@
       </template>
       <template slot="items.genderType" slot-scope="{ value }">
         {{ getGender(value) }}
+      </template>
+      <template slot="items.bloodType" slot-scope="{ value }">
+        {{ getBlood(value) }}
       </template>
       <template slot="items.isBlocked" slot-scope="{ value, props }">
         <b-checkbox
@@ -39,13 +42,16 @@
               <i class="mdi mdi-dots-vertical"></i>
             </b-button>
           </template>
+          <b-dropdown-item-button @click="openAddFixedAmount($event, props)"
+            >Add fixed amount</b-dropdown-item-button
+          >
           <b-dropdown-item-button @click="openAddSalary($event, props)"
             >Add Salary</b-dropdown-item-button
           >
           <b-dropdown-item-button @click="openAccountDetails($event, props)"
             >Account Details</b-dropdown-item-button
           >
-          <b-dropdown-item-button @click="openEditAdmin($event, props)"
+          <b-dropdown-item-button @click="openEditDriver($event, props)"
             >Edit</b-dropdown-item-button
           >
           <b-dropdown-item-button @click="openDelete($event, props)"
@@ -69,34 +75,30 @@
         v-model="accountDetailsDto.userName"
         placeholder="Username"
         readonly
-        prepend
-        prependIcon="Profile"
       >
       </a-input-text>
       <a-input-text
         name="password"
-        value="xxxxxxx"
+        v-model="accountDetailsDto.password"
         placeholder="Password"
-        prepend
-        prependIcon="Lock"
-        readonly
+        type="number"
       >
       </a-input-text>
     </b-modal>
     <!-- Add Salary -->
     <b-modal
-      title="Add Salary"
-      v-model="isAddSalary"
+      :title="salaryDto.isAddSalary ? 'Add Salary' : 'Add Fixed Amount'"
+      v-model="isManagePayment"
       content-class="rounded-xl"
       shadow
       bg-variant="white"
-      @ok="submitAddSalary"
+      @ok="submitManagePayment"
     >
       <a-input-select
         name="userId"
-        :options="adminList"
+        :options="driverList"
         v-model="salaryDto.userId"
-        placeholder=""
+        placeholder=""    
       >
       </a-input-select>
       <a-input-text
@@ -104,8 +106,6 @@
         v-model="salaryDto.amount"
         placeholder="Amount of money"
         type="number"
-        prepend
-        prependIcon="Bag money"
       >
       </a-input-text>
       <a-input-datepicker
@@ -118,66 +118,21 @@
         name="note"
         v-model="salaryDto.note"
         placeholder="Write Note"
-        prepend
-        prependIcon="File"
       >
       </a-input-text>
     </b-modal>
-    <!-- Admin Details -->
-    <b-modal
-      v-model="isAdminDetails"
-      content-class="rounded-xl"
-      shadow
-      bg-variant="white"
-      :hide-footer="true"
-      :hide-header="true"
-    >
-        <div class="mb-5" style="border-radius: 16px; background-color: #F5F5F5; height: 110px;">
-            <div style="min-height: 98px;"></div>
-            <div>
-              <b-img
-              style="border-radius: 16px; margin-left: 20px; margin-top: -12px;"
-              width="64"
-              height="64"
-              :src="adminDetailsDto.path ? $store.getters.domainHost + adminDetailsDto.path : getDefaultImage(adminDetailsDto.genderType)"
-              >
-              </b-img>
-              <strong class="ml-3">{{adminDetailsDto.fullName}}</strong>
-            </div>
-        </div>
-        <div class="d-flex my-2 mt-3" v-if="adminDetailsDto.phoneNumber">
-            <b-img class="mr-3" src="~@/assets/icons/outline/Icon-Outline-Phone.svg"></b-img>
-            <p style="margin: inherit;">{{adminDetailsDto.phoneNumber}}</p>
-        </div>
-        <div class="d-flex my-2" v-if="adminDetailsDto.address">
-            <b-img class="mr-3" src="~@/assets/icons/outline/Icon-Outline-Pin location.svg"></b-img>
-            <p style="margin: inherit;">{{adminDetailsDto.address}}</p>
-        </div>
-        <div class="d-flex my-2"  v-if="adminDetailsDto.gender" >
-            <b-img class="mr-3" src="~@/assets/icons/outline/Icon-Outline-Gender.svg"></b-img>
-            <p style="margin: inherit;">{{adminDetailsDto.gender}}</p>
-        </div>
-        <div class="d-flex my-2"  v-if="adminDetailsDto.dob" >
-            <b-img class="mr-3" src="~@/assets/icons/outline/Icon-Outline-Cake.svg"></b-img>
-            <p style="margin: inherit;">{{getDate(adminDetailsDto.dob)}}</p>
-        </div>
-        <div class="d-flex my-2" v-if="adminDetailsDto.salary" >
-            <b-img class="mr-3" src="~@/assets/icons/outline/Icon-Outline-Bag money.svg"></b-img>
-            <p style="margin: inherit;">{{adminDetailsDto.salary}}</p>
-        </div>
-    </b-modal>
-
   </div>
 </template>
 <script>
-import { mapActions, mapState } from "vuex";
-import { editAdminEvent } from "@/libs/global-event";
+import { mapActions, mapMutations, mapState } from "vuex";
+import { editDriverEvent } from "@/libs/global-event";
 
 export default {
   computed: {
-    ...mapState({ admins: (state) => state.admins.admins }),
+    ...mapState({ drivers: (state) => state.drivers.drivers }),
     ...mapState({ genders: (state) => state.global.genders }),
-    ...mapState({ adminList: (state) => state.global.adminList }),
+    ...mapState({ driverList: (state) => state.global.driverList }),
+    ...mapState({ bloodTypeList: (state) => state.global.bloodTypeList }),
   },
 
   data: () => ({
@@ -197,21 +152,20 @@ export default {
         sortable: false,
       },
       {
-        label: "Address",
-        field: "addressText",
-        sortable: false,
-      },
-      {
         label: "Gender",
         field: "genderType",
+      },
+      {
+        label: "Blood type",
+        field: "bloodType",
       },
       {
         label: "Age",
         field: "age",
       },
       {
-        label: "Salary",
-        field: "salary",
+        label: "Fixed Amount",
+        field: "fixedAmount",
       },
       {
         label: "Block",
@@ -234,52 +188,54 @@ export default {
       note: "",
       userId: null,
       type: 1,
-    },
-    adminDetailsDto:{
-        fullName: "",
-        phoneNumber: "",
-        address: "",
-        gender: "",
-        genderType: 0,
-        dob: new Date(),
-        salary: "",
-        path: ""
+      isAddSalary: false
     },
     isAccountDetails: false,
-    isAddSalary: false,
-    isAdminDetails: false
+    isManagePayment: false,
   }),
 
   created() {
-    this.getAdmins();
+    this.getDrivers();
     this.genderTypes();
-    this.getAdminList();
+    this.getDriverList();
+    this.getBloodTypes();
   },
 
   methods: {
     ...mapActions([
       "genderTypes",
-      "getAdmins",
-      "getAdmin",
-      "deleteAdmin",
-      "blockAdmin",
-      "getAdminList",
-      "addSalary"
+      "getDrivers",
+      "getDriver",
+      "deleteDriver",
+      "blockDriver",
+      "getDriverList",
+      "addSalary",
+      "getBloodTypes",
+      "export"
     ]),
-
-    openEditAdmin(e, props) {
+    ...mapMutations(["Update_FixedAmount"]),
+    openEditDriver(e, props) {
        e.stopPropagation();
-       editAdminEvent(props.row)
+       editDriverEvent(props.row)
     },
 
     openAddSalary(e, props) {
       e.stopPropagation();
 
       this.salaryDto.userId = props.row.id;
-      this.salaryDto.amount = props.row.salary;
 
-      this.isAddSalary = !this.isAddSalary;
+      this.isManagePayment = !this.isManagePayment;
     },
+
+    openAddFixedAmount(e, props) {
+      e.stopPropagation();
+
+      this.salaryDto.userId = props.row.id;
+      this.salaryDto.amount = props.row.fixedAmount;
+
+      this.isManagePayment = !this.isManagePayment;
+    },
+    
 
     openAccountDetails(e, props) {
       e.stopPropagation();
@@ -292,17 +248,27 @@ export default {
 
     openBlock(props){
       //e.stopPropagation();
-      this.blockAdmin(props.row.id)
+      this.blockDriver(props.row.id)
     },
 
-    submitAddSalary() {
-      BvModalEvent.preventDefault()
-      this.addSalary({
-        dto: this.salaryDto,
-        cb: () => {
-          this.resetSalaryDto();
-        },
-      });
+    submitManagePayment() {
+      if(this.salaryDto.isAddSalary){
+        this.addSalary({
+          dto: this.salaryDto,
+          cb: () => {
+            this.resetSalaryDto();
+          },
+        });
+      }
+      else{
+        this.export({
+          dto: this.salaryDto,
+          cb: () => {
+            this.resetSalaryDto();
+          },
+        });
+        this.Update_FixedAmount({userId: this.salaryDto.userId, fixedAmount: this.salaryDto.fixedAmount})
+      }
     },
 
     resetSalaryDto() {
@@ -312,29 +278,29 @@ export default {
         note: "",
         userId: null,
         type: 1,
+        isAddSalary: false 
       });
-    },
-
-    getDetails(props){
-        this.adminDetailsDto.fullName = props.row.fullName;
-        this.adminDetailsDto.phoneNumber = props.row.phoneNumber;
-        this.adminDetailsDto.address = props.row.addressText;
-        this.adminDetailsDto.genderType = props.row.genderType;
-        this.adminDetailsDto.gender = this.genders[this.genders.findIndex((x) => x.id == props.row.genderType)]?.name ?? "";
-        this.adminDetailsDto.dob = props.row.dob;
-        this.adminDetailsDto.salary = props.row.salary;
-        this.adminDetailsDto.path = props.row.identifierImagePath;
-
-        this.isAdminDetails = !this.isAdminDetails;
     },
 
     openDelete(e, props){
        e.stopPropagation();
-       this.deleteAdmin(props.row.id)
+       this.deleteDriver(props.row.id)
+    },
+
+    getDetails(props){
+      this.$router.push("/drivers/" + props.row.id);
     },
 
     getGender(index){
       var ob = this.genders[this.genders.findIndex((x) => x.id == index)]
+      if(ob){
+        return ob.name
+      }
+      return "";
+    },
+
+    getBlood(index){
+      var ob = this.bloodTypeList[this.bloodTypeList.findIndex((x) => x.id == index)]
       if(ob){
         return ob.name
       }

@@ -3,8 +3,8 @@
     <slot name="activator">
        <activaitor @ok="is = true" @search="search" :placeholder="placeholder" :title="btn_title"/>
     </slot>
-    <b-modal :title="title" content-class="rounded-xl" :size="size" backdrop shadow bg-variant="white" v-model="is" 
-             @ok="ok" >
+    <b-modal :title="title" content-class="rounded-xl" :size="size" backdrop shadow bg-variant="white" v-model="is"
+             @ok="ok($event)" >
         <template #header>
             <div
                 class="d-flex justify-content-between align-items-center px-2 py-3 border-bottom"
@@ -78,8 +78,8 @@ export default {
         }
     },
     methods: {
-        ok() {
-            this.$emit('ok')
+        ok(e) {
+            this.$emit('ok', e)
             if(this.endClose) this.is = false
         },
         del() {

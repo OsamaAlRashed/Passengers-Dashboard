@@ -1,9 +1,10 @@
-import { All } from "..";
+import {
+  Admin
+} from "..";
 // import { nullGuid } from "@core/util/global/index.js";
-export default [
-  {
+export default [{
     path: "",
-    redirect: "/home",
+    redirect: "/shops",
   },
   {
     path: "home",
@@ -13,14 +14,12 @@ export default [
       action: () => import("@/views/admin/home/actions/nav-action"),
     },
     meta: () => ({
-      roles: [All],
+      roles: [Admin],
       layout: "vertical",
-      breadcrumb: [
-        {
-          text: "home",
-          active: true,
-        },
-      ],
+      breadcrumb: [{
+        text: "home",
+        active: true,
+      }, ],
     }),
   },
   {
@@ -31,14 +30,12 @@ export default [
       // action: () => import("@/views/admin/shops/actions/nav-action"),
     },
     meta: () => ({
-      roles: [All],
+      roles: [Admin],
       layout: "vertical",
-      breadcrumb: [
-        {
-          text: "shops",
-          active: true,
-        },
-      ],
+      breadcrumb: [{
+        text: "shops",
+        active: true,
+      }, ],
     }),
   },
   {
@@ -49,14 +46,99 @@ export default [
       action: () => import("@/views/admin/admins/components/manage-admin.vue"),
     },
     meta: () => ({
-      roles: [All],
+      roles: [Admin],
       layout: "vertical",
-      breadcrumb: [
-        {
-          text: "admins",
-          active: true,
+      breadcrumb: [{
+        text: "admins",
+        active: true,
+      }, ],
+    }),
+  },
+  {
+    path: "drivers",
+    name: "drivers",
+    components: {
+      default: () => import("@/views/admin/drivers"),
+      action: () => import("@/views/admin/drivers/components/manage-driver.vue"),
+    },
+    meta: () => ({
+      roles: [Admin],
+      layout: "vertical",
+      breadcrumb: [{
+        text: "drivers",
+        active: true,
+      }],
+    }),
+  },
+  {
+    path: "drivers/:driverId",
+    name: "driver details",
+    props: {
+      default: true
+    },
+    components: {
+      default: () => import("@/views/admin/drivers/components/driver-details.vue"),
+      // action: () => import("@/views/admin/drivers/components/driver-details.vue"),
+    },
+    meta: () => ({
+      roles: [Admin],
+      layout: "vertical",
+      breadcrumb: [{
+          text: "drivers",
+          active: false,
+          to: '/drivers'
         },
+        {
+          text: "drivers details",
+          active: true,
+        }
       ],
+    })
+  },
+  {
+    path: "salaries",
+    name: "salaries",
+    components: {
+      default: () => import("@/views/admin/salaries"),
+      action: () => import("@/views/admin/salaries/components/manage-salary.vue"),
+    },
+    meta: () => ({
+      roles: [Admin],
+      layout: "vertical",
+      breadcrumb: [{
+        text: "salaries",
+        active: true,
+      }, ],
+    }),
+  }, {
+    path: "imports",
+    name: "imports",
+    components: {
+      default: () => import("@/views/admin/imports"),
+      action: () => import("@/views/admin/imports/components/add-import.vue"),
+    },
+    meta: () => ({
+      roles: [Admin],
+      layout: "vertical",
+      breadcrumb: [{
+        text: "imports",
+        active: true,
+      }, ],
+    }),
+  }, {
+    path: "exports",
+    name: "exports",
+    components: {
+      default: () => import("@/views/admin/exports"),
+      action: () => import("@/views/admin/exports/components/add-export.vue"),
+    },
+    meta: () => ({
+      roles: [Admin],
+      layout: "vertical",
+      breadcrumb: [{
+        text: "exports",
+        active: true,
+      }, ],
     }),
   },
 ];

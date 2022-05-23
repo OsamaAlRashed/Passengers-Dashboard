@@ -14,3 +14,9 @@ export const initScreenEvent = () =>  {
 export const destroyScreenEvent = () =>  {
   removeEventListener('resize', checkSize)
 }
+export const editAdminEvent = (payload) =>  {
+  vm.$emit('edit-admin-event', payload)
+}
+export const editDriverEvent = (payload) =>  {
+  vm.$emit('edit-driver-event', payload)
+}

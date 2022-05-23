@@ -10,7 +10,7 @@
             @drop.prevent="drop($event)"
         >
             <h5 class="text-primary m-0">{{ title }}
-                <unicon fill="#7367f0" width="20" name="plus"></unicon>
+                <!-- <unicon fill="#7367f0" width="20" name="plus"></unicon> -->
             </h5>
             <input v-if="mul" type="file" multiple :id="id + 'input-mul'" @change="drop($event)" class="d-none" accept="image/png, image/jpeg" >
             <input v-else type="file" :id="id + 'input-single'" @change="drop($event)" class="d-none" accept="image/png, image/jpeg" >

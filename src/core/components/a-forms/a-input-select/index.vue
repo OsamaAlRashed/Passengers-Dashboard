@@ -5,37 +5,59 @@
       class="a-form-group"
       :label-for="'label-for-select-' + id"
     >
-      <v-select
-        :id="'label-for-select-' + id"
-        v-model="innerVal"
-        :options="options"
-        :reduce="(item) => (valueLabel ? item[valueLabel] : item)"
-        :label="textLabel"
-        :clearable="clearable"
-        :multiple="multiple"
-        :placeholder="placeholder"
-        :dir="getSiteLanguage() == 'ar' ? 'rtl' : 'ltr'"
-        :selectable="selectable"
-        class="rounded"
-        :class="[fieldClass, { 'border-danger': errors[0] }]"
-      >
-        <template #list-header>
-          <slot name="list-header"></slot>
+      <a-input-group class="mr-2" :append="append" :prepend="prepend">
+        <template slot="append" v-if="append">
+          <b-img
+            :src="
+              require(`@/assets/icons/outline/Icon-Outline-${appendIcon}.svg`)
+            "
+          ></b-img>
         </template>
-        <template #option="{ name }">
-          <slot name="option" :label="name"></slot>
+        <v-select
+          :id="'label-for-select-' + id"
+          v-model="innerVal"
+          :options="options"
+          :reduce="(item) => (valueLabel ? item[valueLabel] : item)"
+          :label="textLabel"
+          :clearable="clearable"
+          :multiple="multiple"
+          :placeholder="placeholder"
+          :dir="getSiteLanguage() == 'ar' ? 'rtl' : 'ltr'"
+          :selectable="selectable"
+          class="flex-grow-1"
+          :class="[fieldClass, { 'border-danger': errors[0] }]"
+        >
+          <template #list-header>
+            <slot name="list-header"></slot>
+          </template>
+          <template #option="{ name }">
+            <slot name="option" :label="name"></slot>
+          </template>
+          <template #selected-option="{ name }">
+            <slot name="selected-option" :label="name"></slot>
+          </template>
+          <template #list-footer>
+            <slot name="list-footer"></slot>
+          </template>
+          <template v-slot:no-options="{ search, searching }">
+            <slot
+              name="no-options"
+              :search="search"
+              :searching="searching"
+            ></slot>
+          </template>
+        </v-select>
+        <small class="text-danger">{{ errors[0] }}</small>
+
+        <template slot="prepend" v-if="prepend">
+          <b-img
+            width="20"
+            :src="
+              require(`@/assets/icons/outline/Icon-Outline-${prependIcon}.svg`)
+            "
+          ></b-img>
         </template>
-        <template #selected-option="{ name }">
-          <slot name="selected-option" :label="name"></slot>
-        </template>
-        <template #list-footer>
-          <slot name="list-footer"></slot>
-        </template>
-        <template v-slot:no-options="{ search, searching }">
-            <slot name="no-options" :search="search" :searching="searching"></slot>
-        </template>
-      </v-select>
-      <small class="text-danger">{{ errors[0] }}</small>
+      </a-input-group>
     </b-form-group>
   </ValidationProvider>
 </template>
@@ -72,6 +94,11 @@ export default {
     BFormGroup,
   },
   props: {
+    append: Boolean,
+    prepend: Boolean,
+    
+    appendIcon: String,
+    prependIcon: String,
     options: Array,
     clearable: {
       type: Boolean,

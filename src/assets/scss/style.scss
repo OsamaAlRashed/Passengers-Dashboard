@@ -81,6 +81,20 @@ body{
 .modal-content{
   border-radius: 16px;
 }
+.vd-picker__input-icon{
+  padding-right: 26px;
+}
+
+.vd-picker__input input{
+  font-size: 14px;
+}
+
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #bb121a;
+  background-color: #bb121a;
+}
+
 // --- libs
 @import '~animate.css/animate.min.css';
 @import '~vue-good-table/src/styles/style.scss';

@@ -7,8 +7,9 @@ export default {
     },
 
     actions:{
-        getAdmins({commit}){
-            api.get('Admin/Get', ({data}) => {
+        getAdmins({commit}, payload){
+            var url = 'Admin/Get' + (payload ? `?search=${payload.text}` : '');
+            api.get(url, ({data}) => {
                 commit('Get_Admins', data);
             }, { success: "Ok", error: "Error"})
         },

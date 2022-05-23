@@ -29,7 +29,9 @@ import { ValidationObserver } from "vee-validate";
 import logoPrimary from "@core/layout/logo-primary";
 import logoWhite from "@core/layout/logo-white";
 
+import monthlyPicker from 'vue-monthly-picker'
 
+Vue.component('vue-monthly-picker', monthlyPicker);
 
 Vue.component('a-logo-white', logoWhite)
 Vue.component('a-logo-primary', logoPrimary)
@@ -57,4 +59,5 @@ Vue.component('a-input-select', aInputSelect)
 Vue.component('a-input-text', aInputText)
 Vue.component('a-input-textarea', aIinputTextarea)
 Vue.component('validation-observer', ValidationObserver)
+
 

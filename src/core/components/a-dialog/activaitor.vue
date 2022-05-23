@@ -3,14 +3,11 @@
     <a-input-group
       class="mr-2"
       v-if="!!placeholder"
-      prepend
     >
       <a-input-text name="search" @input="search" type="search" :placeholder="placeholder" />
-      <template #prepend>
-        <!-- <b-button variant="flat" disabled style="padding-top: 12px">
-          <i class="mdi mdi-magnify" style="font-size: 22px; line-height: .7;"></i>
-        </b-button> -->
-      </template>
+      <!-- <template #prepend>
+        <i class="mdi mdi-magnify p-2" style="font-size: 22px; line-height: .7;"></i>
+      </template> -->
     </a-input-group>
     <slot>
       <b-button

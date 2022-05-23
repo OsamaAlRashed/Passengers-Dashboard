@@ -6,21 +6,34 @@
       class="a-form-group"
       :label-for="'label-for-text-' + id"
     >
-      <b-form-input
-        :id="'label-for-text-' + id"
-        v-model="innerVal"
-        v-bind="$attrs"
-        @change="$emit('change', $event)"
-        :class="fieldClass"
-        trim
-        :min="min"
-        :max="max"
-        :type="type"
-        :state="faildRules ? (errors[0] ? false : valid ? true : null) : null"
-      ></b-form-input>
-      <b-form-invalid-feedback>
-        {{ errors[0] }}
-      </b-form-invalid-feedback>
+      <a-input-group class="mr-2" :append="append" :prepend="prepend">
+        <template slot="append" v-if="append">
+          <b-img
+            :src="require(`@/assets/icons/outline/Icon-Outline-${appendIcon}.svg`)"
+          ></b-img>
+        </template>
+        <b-form-input
+          :id="'label-for-text-' + id"
+          v-model="innerVal"
+          v-bind="$attrs"
+          @change="$emit('change', $event)"
+          :class="fieldClass"
+          trim
+          :min="min"
+          :max="max"
+          :type="type"
+          :state="faildRules ? (errors[0] ? false : valid ? true : null) : null"
+        ></b-form-input>
+        <b-form-invalid-feedback>
+          {{ errors[0] }}
+        </b-form-invalid-feedback>
+        <template slot="prepend" v-if="prepend">
+          <b-img
+            width="20"
+            :src="require(`@/assets/icons/outline/Icon-Outline-${prependIcon}.svg`)"
+          ></b-img>
+        </template>
+      </a-input-group>
     </b-form-group>
   </ValidationProvider>
 </template>
@@ -63,6 +76,8 @@ export default {
     BFormInvalidFeedback,
   },
   props: {
+    append: Boolean,
+    prepend: Boolean,
     name: {
       type: String,
       required: true,
@@ -70,6 +85,8 @@ export default {
     vid: {
       type: String,
     },
+    appendIcon: String,
+    prependIcon: String,
     rules: {
       type: Array,
       default: () => [],

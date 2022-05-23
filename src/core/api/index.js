@@ -53,7 +53,6 @@ export default {
         callback(data);
       })
       .catch((err) => {
-        console.log(err.message);
         toast.open({
           message: err.response.data,
           type: "error",

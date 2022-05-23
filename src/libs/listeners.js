@@ -10,3 +10,14 @@ export const onDesktopMode = (action) => {
     action(id);      
   });
 }
+export const onEditAdminEvent = (action) =>  {
+  vm.$on('edit-admin-event', (payload)=>{
+    action(payload);
+  });
+}
+export const onEditDriverEvent = (action) =>  {
+  vm.$on('edit-driver-event', (payload)=>{
+    action(payload);
+  });
+}
+

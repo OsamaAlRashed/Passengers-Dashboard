@@ -87,7 +87,6 @@ export default class Tree {
     const categoryChildrens = node.categoryChildrens;
     if (categoryChildrens) {
       categoryChildrens.forEach((currentNode) => {
-        console.log(currentNode);
         this.printTree(currentNode);
       });
     }

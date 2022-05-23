@@ -2,12 +2,24 @@
   "titles": {
     "home": "home",
     "admins": "admins",
-    "shops": "shops"
+    "drivers": "drivers",
+    "shops": "shops",
+    "financial": "financial",
+    "salaries": "salaries",
+    "imports": "imports",
+    "exports": "exports",
+    "orders": "orders board"
   },
   "breadcrumb": {
-    "home": "home",
+    "home": "home", 
     "admins": "admins",
-    "shops": "shops"
+    "drivers": "drivers",
+    "shops": "shops",
+    "financial": "financial",
+    "salaries": "salaries",
+    "imports": "imports",
+    "exports": "exports",
+    "orders": "orders board"
   },
   "files": {
     "title": "(drag and drop) or click to upload"

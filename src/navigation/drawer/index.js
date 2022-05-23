@@ -4,8 +4,8 @@ export default [
     header: "menu",
   },
   {
-    title: "home",
-    to: "/home",
+    title: "orders",
+    to: "/orders",
     roles: [All],
   },
   {
@@ -14,8 +14,33 @@ export default [
     roles: [All],
   },
   {
+    title: "drivers",
+    to: "/drivers",
+    roles: [All],
+  },
+  {
     title: "shops",
     to: "/shops",
     roles: [All],
+  },
+  {
+    title: "financial",
+
+    roles: [All],
+    children:[{
+      title: "salaries",
+      to: "/salaries",
+      roles: [All],
+    },
+    {
+      title: "imports",
+      to: "/imports",
+      roles: [All],
+    },
+    {
+      title: "exports",
+      to: "/exports",
+      roles: [All],
+    }]
   },
 ];

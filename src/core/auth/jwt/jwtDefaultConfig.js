@@ -10,7 +10,7 @@ export default {
   // Value of this property will be used as key to store JWT token in storage
   storageTokenKeyName: "AccessToken",
   storageRefreshTokenKeyName: "RefreshToken",
-  storageUserDataKeyName: "UserDate"
+  storageUserDataKeyName: "UserData"
 };
 
 export const userRoleAttrName =

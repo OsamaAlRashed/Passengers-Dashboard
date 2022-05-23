@@ -46,7 +46,6 @@ export default {
   }),
   methods: {
     signup(userDto) {
-      console.log(userDto)
     }
   }
 }
