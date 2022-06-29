@@ -75,30 +75,41 @@
         v-model="accountDetailsDto.userName"
         placeholder="Username"
         readonly
+        prepend
+        prependIcon="Profile"
       >
       </a-input-text>
       <a-input-text
         name="password"
-        v-model="accountDetailsDto.password"
+        value="xxxxxxx"
         placeholder="Password"
-        type="number"
+        prepend
+        prependIcon="Lock"
+        readonly
       >
       </a-input-text>
     </b-modal>
     <!-- Add Salary -->
-    <b-modal
+    <validation-observer ref="observer">
+      <b-modal
       :title="salaryDto.isAddSalary ? 'Add Salary' : 'Add Fixed Amount'"
       v-model="isManagePayment"
       content-class="rounded-xl"
       shadow
       bg-variant="white"
-      @ok="submitManagePayment"
+      @ok="submitManagePayment($event)"
+      ref="form"
     >
       <a-input-select
         name="userId"
         :options="driverList"
         v-model="salaryDto.userId"
-        placeholder=""    
+        placeholder=""
+        prepend
+        prependIcon="Profile"   
+        :rules="[
+          { type: 'required', message: 'Admin is required' },
+        ]" 
       >
       </a-input-select>
       <a-input-text
@@ -106,21 +117,37 @@
         v-model="salaryDto.amount"
         placeholder="Amount of money"
         type="number"
+        prepend
+        prependIcon="Bag money"
+        :rules="[
+          { type: 'required', message: 'money is required' },
+          {
+            type: 'min_value:1',
+            message: 'money must be bigger than 0.',
+          },
+        ]"
       >
       </a-input-text>
       <a-input-datepicker
         name="date"
         v-model="salaryDto.date"
         placeholder="DD/MM/YYYY"
+        :rules="[
+          { type: 'required', message: 'date is required' },
+        ]"
       >
       </a-input-datepicker>
       <a-input-text
         name="note"
         v-model="salaryDto.note"
         placeholder="Write Note"
+        prepend
+        prependIcon="File"
       >
       </a-input-text>
     </b-modal>
+    </validation-observer>
+    
   </div>
 </template>
 <script>
@@ -223,7 +250,7 @@ export default {
       e.stopPropagation();
 
       this.salaryDto.userId = props.row.id;
-
+      this.salaryDto.isAddSalary = true;
       this.isManagePayment = !this.isManagePayment;
     },
 
@@ -232,7 +259,7 @@ export default {
 
       this.salaryDto.userId = props.row.id;
       this.salaryDto.amount = props.row.fixedAmount;
-
+      this.salaryDto.isAddSalary = false;
       this.isManagePayment = !this.isManagePayment;
     },
     
@@ -251,27 +278,35 @@ export default {
       this.blockDriver(props.row.id)
     },
 
-    submitManagePayment() {
-      if(this.salaryDto.isAddSalary){
-        this.addSalary({
-          dto: this.salaryDto,
-          cb: () => {
-            this.resetSalaryDto();
-          },
-        });
-      }
-      else{
-        this.export({
-          dto: this.salaryDto,
-          cb: () => {
-            this.resetSalaryDto();
-          },
-        });
-        this.Update_FixedAmount({userId: this.salaryDto.userId, fixedAmount: this.salaryDto.fixedAmount})
-      }
+    submitManagePayment(BvModalEvent) {
+      BvModalEvent.preventDefault()
+      this.$refs.observer.validate().then((success) => {
+        if (success) {
+          this.isManagePayment = false;
+          if(this.salaryDto.isAddSalary){
+            this.addSalary({
+              dto: this.salaryDto,
+              cb: () => {
+                this.resetSalaryDto();
+              },
+            });
+          }
+          else{
+            this.export({
+              dto: this.salaryDto,
+              cb: () => {
+                this.resetSalaryDto();
+              },
+            });
+            this.Update_FixedAmount({userId: this.salaryDto.userId, fixedAmount: this.salaryDto.amount})
+          }
+          this.$refs.form.close();
+        }
+      })
     },
 
     resetSalaryDto() {
+      this.$refs.observer.reset();
       Object.assign(this.salaryDto, {
         date: new Date(),
         amount: 0,

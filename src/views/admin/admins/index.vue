@@ -84,19 +84,25 @@
       </a-input-text>
     </b-modal>
     <!-- Add Salary -->
-    <b-modal
-      title="Add Salary"
-      v-model="isAddSalary"
-      content-class="rounded-xl"
-      shadow
-      bg-variant="white"
-      @ok="submitAddSalary"
-    >
+    <validation-observer ref="observer">
+      <b-modal
+        title="Add Salary"
+        v-model="isAddSalary"
+        content-class="rounded-xl"
+        shadow
+        bg-variant="white"
+        @ok="submitAddSalary($event)"
+      >
       <a-input-select
         name="userId"
         :options="adminList"
         v-model="salaryDto.userId"
         placeholder=""
+        prepend
+        prependIcon="Profile"
+        :rules="[
+          { type: 'required', message: 'Admin is required' },
+        ]"
       >
       </a-input-select>
       <a-input-text
@@ -106,12 +112,22 @@
         type="number"
         prepend
         prependIcon="Bag money"
+        :rules="[
+          { type: 'required', message: 'money is required' },
+          {
+            type: 'min_value:1',
+            message: 'money must be bigger than 0.',
+          },
+        ]"
       >
       </a-input-text>
       <a-input-datepicker
         name="date"
         v-model="salaryDto.date"
         placeholder="DD/MM/YYYY"
+        :rules="[
+          { type: 'required', message: 'date is required' },
+        ]"
       >
       </a-input-datepicker>
       <a-input-text
@@ -122,7 +138,9 @@
         prependIcon="File"
       >
       </a-input-text>
-    </b-modal>
+      </b-modal>
+    </validation-observer>
+    
     <!-- Admin Details -->
     <b-modal
       v-model="isAdminDetails"
@@ -295,17 +313,24 @@ export default {
       this.blockAdmin(props.row.id)
     },
 
-    submitAddSalary() {
+    submitAddSalary(BvModalEvent) {
       BvModalEvent.preventDefault()
-      this.addSalary({
-        dto: this.salaryDto,
-        cb: () => {
-          this.resetSalaryDto();
-        },
-      });
+      this.$refs.observer.validate().then((success) => {
+        if (success) {
+          this.addSalary({
+            dto: this.salaryDto,
+            cb: () => {
+              this.resetSalaryDto();
+            },
+          });
+          this.isAddSalary = false;
+        }
+      })
+      
     },
 
     resetSalaryDto() {
+      this.$refs.observer.reset();
       Object.assign(this.salaryDto, {
         date: new Date(),
         amount: 0,

@@ -71,13 +71,14 @@
       </vue-monthly-picker>
     </b-col>
     <!-- Edit Import -->
-    <b-modal
+     <validation-observer ref="observer">
+         <b-modal
       title="Edit Import"
       v-model="isEditImport"
       content-class="rounded-xl"
       shadow
       bg-variant="white"
-      @ok="submitEditImport"
+      @ok="submitEditImport($event)"
       size="md"
     >
       <a-input-text
@@ -85,21 +86,35 @@
         v-model="importDto.amount"
         placeholder="Amount of money"
         type="number"
+        prepend
+        prependIcon="Bag money"
+        :rules="[
+          { type: 'required', message: 'salary is required' },
+          {
+            type: 'min_value:1',
+            message: 'salary must be bigger than 0.',
+          },
+        ]"
       >
       </a-input-text>
       <a-input-datepicker
         name="date"
         v-model="importDto.date"
         placeholder="DD/MM/YYYY"
+        :rules="[{ type: 'required', message: 'full name is required' }]"
       >
       </a-input-datepicker>
       <a-input-text
         name="note"
         v-model="importDto.note"
         placeholder="Write Note"
+        prepend
+        prependIcon="File"
       >
       </a-input-text>
     </b-modal>
+     </validation-observer>
+   
   </b-row>
 </template>
 
@@ -112,7 +127,6 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { nullGuid } from "../../../core/util/global";
 
 export default {
   computed: {
@@ -202,14 +216,21 @@ export default {
       }
       return "";
     },
-    submitEditImport() {
-      this.updatePayment({
-        dto: this.importDto,
-        type: "import",
-        cb: () => {
-          this.resetDto();
-        },
-      });
+    submitEditImport(BvModalEvent) {
+      BvModalEvent.preventDefault();
+      this.$refs.observer.validate().then((success) => {
+        if (success) {
+          this.updatePayment({
+            dto: this.importDto,
+            type: "import",
+            cb: () => {
+              this.resetDto();
+            },
+          });
+          this.isEditImport = false;
+        }
+      })
+      
     },
     resetDto() {
       Object.assign(this.importDto, {

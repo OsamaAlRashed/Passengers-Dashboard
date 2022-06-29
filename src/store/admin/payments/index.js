@@ -10,19 +10,68 @@ export default {
 
     actions:{
         getSalaries({commit}, payload){
-            var url = "Payment/GetSalaries" + (payload == null ? "" : `?year=${payload.year}&month=${payload.month}`);
+            var queryString = "?";
+            if(payload != null){
+                if(payload.year != null){
+                    queryString += `year=${payload.year}`
+                }
+                if(payload.month != null){
+                    if(queryString.length > 1)
+                        queryString += "&"
+                    queryString += `month=${payload.month}`
+                }
+                if(payload.search != null){
+                    if(queryString.length > 1)
+                        queryString += "&"
+                    queryString += `search=${payload.search}`
+                }
+            }
+
+            var url = `Payment/GetSalaries${queryString}`;
             api.get(url, ({data}) => {
                 commit('Get_Salaries', data);
             }, { success: "Ok", error: "Error"})
         },
         getImports({commit}, payload){
-            var url = "Payment/GetImports" + (payload == null ? "" : `?year=${payload.year}&month=${payload.month}`);
+            var queryString = "?";
+            if(payload != null){
+                if(payload.year != null){
+                    queryString += `year=${payload.year}`
+                }
+                if(payload.month != null){
+                    if(queryString.length > 1)
+                        queryString += "&"
+                    queryString += `month=${payload.month}`
+                }
+                if(payload.search != null){
+                    if(queryString.length > 1)
+                        queryString += "&"
+                    queryString += `search=${payload.search}`
+                }
+            }
+            var url = `Payment/GetImports${queryString}`;
             api.get(url, ({data}) => {
                 commit('Get_Imports', data);
             }, { success: "Ok", error: "Error"})
         },
         getExports({commit}, payload){
-            var url = "Payment/GetExports" + (payload == null ? "" : `?year=${payload.year}&month=${payload.month}`);
+            var queryString = "?";
+            if(payload != null){
+                if(payload.year != null){
+                    queryString += `year=${payload.year}`
+                }
+                if(payload.month != null){
+                    if(queryString.length > 1)
+                        queryString += "&"
+                    queryString += `month=${payload.month}`
+                }
+                if(payload.search != null){
+                    if(queryString.length > 1)
+                        queryString += "&"
+                    queryString += `search=${payload.search}`
+                }
+            }
+            var url = `Payment/GetExports${queryString}`;
             api.get(url, ({data}) => {
                 commit('Get_Exports', data);
             }, { success: "Ok", error: "Error"})

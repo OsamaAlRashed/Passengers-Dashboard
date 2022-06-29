@@ -42,9 +42,13 @@
                 <i class="mdi mdi-dots-vertical"></i>
               </b-button>
             </template>
-            <b-dropdown-item-button @click="openEdit(props.row.id)">Edit</b-dropdown-item-button
+            <b-dropdown-item-button @click="openEdit(props.row.id)"
+              >Edit</b-dropdown-item-button
             >
-            <b-dropdown-item-button @click="deletePayment({id: props.row.id, type: 'export'})">Delete</b-dropdown-item-button>
+            <b-dropdown-item-button
+              @click="deletePayment({ id: props.row.id, type: 'export' })"
+              >Delete</b-dropdown-item-button
+            >
           </b-dropdown>
         </template>
       </a-table>
@@ -71,35 +75,47 @@
       </vue-monthly-picker>
     </b-col>
     <!-- Edit Export -->
-    <b-modal
-      title="Edit Export"
-      v-model="isEditExport"
-      content-class="rounded-xl"
-      shadow
-      bg-variant="white"
-      @ok="submitEditExport"
-      size="md"
-    >
-      <a-input-text
-        name="amount"
-        v-model="exportDto.amount"
-        placeholder="Amount of money"
-        type="number"
+    <validation-observer ref="observer">
+      <b-modal
+        title="Edit Export"
+        v-model="isEditExport"
+        content-class="rounded-xl"
+        shadow
+        bg-variant="white"
+        @ok="submitEditExport($event)"
+        size="md"
       >
-      </a-input-text>
-      <a-input-datepicker
-        name="date"
-        v-model="exportDto.date"
-        placeholder="DD/MM/YYYY"
-      >
-      </a-input-datepicker>
-      <a-input-text
-        name="note"
-        v-model="exportDto.note"
-        placeholder="Write Note"
-      >
-      </a-input-text>
-    </b-modal>
+        <a-input-text
+          name="amount"
+          v-model="exportDto.amount"
+          placeholder="Amount of money"
+          type="number"
+          :rules="[
+          { type: 'required', message: 'salary is required' },
+          {
+            type: 'min_value:1',
+            message: 'salary must be bigger than 0.',
+          },
+        ]"
+        >
+        </a-input-text>
+        <a-input-datepicker
+          name="date"
+          v-model="exportDto.date"
+          placeholder="DD/MM/YYYY"
+          :rules="[{ type: 'required', message: 'full name is required' }]"
+        >
+        </a-input-datepicker>
+        <a-input-text
+          name="note"
+          v-model="exportDto.note"
+          placeholder="Write Note"
+          prepend
+          prependIcon="File"
+        >
+        </a-input-text>
+      </b-modal>
+    </validation-observer>
   </b-row>
 </template>
 
@@ -112,14 +128,12 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { nullGuid } from "../../../core/util/global";
 
 export default {
   computed: {
     ...mapState({ exports: (state) => state.payments.exports }),
     ...mapState({ userList: (state) => state.global.userList }),
     ...mapState({ exportTypeList: (state) => state.global.exportTypeList }),
-
   },
   data: () => ({
     columns: [
@@ -174,15 +188,22 @@ export default {
       note: "",
       userId: null,
       type: 0,
-    }
+    },
   }),
   created() {
     this.getExports();
     this.getUserList();
-    this.getExportTypes()
+    this.getExportTypes();
   },
   methods: {
-    ...mapActions(["getExports", "getUserList", "deletePayment", "updatePayment", "getPayment", "getExportTypes"]),
+    ...mapActions([
+      "getExports",
+      "getUserList",
+      "deletePayment",
+      "updatePayment",
+      "getPayment",
+      "getExportTypes",
+    ]),
     selectDate(moment) {
       var date = moment._i.split("/");
       var year = parseInt(date[0]);
@@ -202,16 +223,23 @@ export default {
       }
       return "";
     },
-    submitEditExport() {
-      this.updatePayment({
-        dto: this.exportDto,
-        type: "export",
-        cb: () => {
-          this.resetDto();
-        },
-      });
+    submitEditExport(BvModalEvent) {
+      BvModalEvent.preventDefault();
+      this.$refs.observer.validate().then((success) => {
+        if (success) {
+          this.updatePayment({
+            dto: this.exportDto,
+            type: "export",
+            cb: () => {
+              this.resetDto();
+            },
+          });
+          this.isEditExport = false;
+        }
+      })
     },
     resetDto() {
+      this.$refs.observer.reset();
       Object.assign(this.exportDto, {
         date: new Date(),
         amount: 0,
@@ -220,11 +248,14 @@ export default {
         type: 1,
       });
     },
-    openEdit(id){
-      this.getPayment({ id: id, cb: ({data}) => {
-          Object.assign(this.exportDto, data)
-      }})
-      this.isEditExport = !this.isEditExport
+    openEdit(id) {
+      this.getPayment({
+        id: id,
+        cb: ({ data }) => {
+          Object.assign(this.exportDto, data);
+        },
+      });
+      this.isEditExport = !this.isEditExport;
     },
     getExportType(id) {
       if (id != null) {

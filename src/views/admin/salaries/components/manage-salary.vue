@@ -1,11 +1,13 @@
 <template>
+<validation-observer ref="observer">
   <a-modal
     size="md"
     title="Add Salary"
     btn_title="Add Salary"
     placeholder="search"
     @search="search"
-    @ok="submitForm"
+    @ok="submitForm($event)"
+    ref="form"
   >
     <template slot="body">
       <a-input-select
@@ -13,6 +15,9 @@
         :options="adminList.concat(driverList)"
         v-model="salaryDto.userId"
         placeholder="Select admin or driver"
+        :rules="[{ type: 'required', message: 'full name is required' }]"
+        prepend
+        prependIcon="Profile"
       >
       </a-input-select>
       <a-input-text
@@ -22,12 +27,21 @@
         type="number"
         prepend
         prependIcon="Bag money"
+        :rules="[
+          { type: 'required', message: 'salary is required' },
+          {
+            type: 'min_value:1',
+            message: 'salary must be bigger than 0.',
+          },
+        ]"
       >
       </a-input-text>
       <a-input-datepicker
         name="date"
         v-model="salaryDto.date"
         placeholder="DD/MM/YYYY"
+        :rules="[{ type: 'required', message: 'full name is required' }]"
+
       >
       </a-input-datepicker>
       <a-input-text
@@ -40,6 +54,8 @@
       </a-input-text>
     </template>
   </a-modal>
+</validation-observer>
+
 </template>
 <script>
 import fileDragDrop from "@core/components/file-drag-drop/file-drag-drop.vue";
@@ -67,19 +83,27 @@ export default {
     this.getDriverList();
   },
   methods: {
-    ...mapActions(["getDriverList", "getAdminList", "addSalary"]),
+    ...mapActions(["getSalaries", "getDriverList", "getAdminList", "addSalary"]),
     search(text) {
-      //this.getAdmins(text);
+      this.getSalaries({ search: text});
     },
-    submitForm() {
-      this.addSalary({
-        dto: this.salaryDto,
-        cb: () => {
-          this.resetDto();
-        },
-      });
+    submitForm(BvModalEvent) {
+      BvModalEvent.preventDefault();
+      this.$refs.observer.validate().then((success) => {
+        if (success) {
+          this.addSalary({
+            dto: this.salaryDto,
+            cb: () => {
+              this.resetDto();
+            },
+          });
+          this.$refs.form.close()
+        }
+      })
+      
     },
     resetDto() {
+      this.$refs.observer.reset();
       Object.assign(this.salaryDto, {
         date: new Date(),
         amount: 0,

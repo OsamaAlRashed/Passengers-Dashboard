@@ -68,35 +68,49 @@
       </vue-monthly-picker>
     </b-col>
     <!-- Edit Salary -->
-    <b-modal
-      title="Edit Salary"
-      v-model="isEditSalary"
-      content-class="rounded-xl"
-      shadow
-      bg-variant="white"
-      @ok="submitEditSalary"
-      size="md"
-    >
+    <validation-observer ref="observer">
+      <b-modal
+        title="Edit Salary"
+        v-model="isEditSalary"
+        content-class="rounded-xl"
+        shadow
+        bg-variant="white"
+        @ok="submitEditSalary($event)"
+        size="md"
+      >
       <a-input-text
         name="amount"
         v-model="salaryDto.amount"
         placeholder="Amount of money"
         type="number"
+        prepend
+        prependIcon="Bag money"
+        :rules="[
+          { type: 'required', message: 'salary is required' },
+          {
+            type: 'min_value:1',
+            message: 'salary must be bigger than 0.',
+          },
+        ]"
       >
       </a-input-text>
       <a-input-datepicker
         name="date"
         v-model="salaryDto.date"
         placeholder="DD/MM/YYYY"
+        :rules="[{ type: 'required', message: 'full name is required' }]"
       >
       </a-input-datepicker>
       <a-input-text
         name="note"
         v-model="salaryDto.note"
         placeholder="Write Note"
+        prepend
+        prependIcon="File"
       >
       </a-input-text>
-    </b-modal>
+      </b-modal>
+    </validation-observer>
   </b-row>
 </template>
 
@@ -109,7 +123,6 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { nullGuid } from "../../../core/util/global";
 import moment from 'moment';
 
 export default {
@@ -193,16 +206,23 @@ export default {
       }
       return "-";
     },
-    submitEditSalary() {
-      this.updatePayment({
-        dto: this.salaryDto,
-        type: "salary",
-        cb: () => {
-          this.resetDto();
-        },
-      });
+    submitEditSalary(BvModalEvent) {
+      BvModalEvent.preventDefault();
+      this.$refs.observer.validate().then((success) => {
+        if (success) {
+          this.updatePayment({
+            dto: this.salaryDto,
+            type: "salary",
+            cb: () => {
+              this.resetDto();
+            },
+          });
+          this.isEditSalary = false;
+        }
+      })
     },
     resetDto() {
+      this.$refs.observer.reset();
       Object.assign(this.salaryDto, {
         date: new Date(),
         amount: 0,

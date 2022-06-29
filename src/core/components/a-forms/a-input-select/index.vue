@@ -47,7 +47,6 @@
             ></slot>
           </template>
         </v-select>
-        <small class="text-danger">{{ errors[0] }}</small>
 
         <template slot="prepend" v-if="prepend">
           <b-img
@@ -58,6 +57,7 @@
           ></b-img>
         </template>
       </a-input-group>
+      <small class="text-danger">{{ errors[0] }}</small>
     </b-form-group>
   </ValidationProvider>
 </template>

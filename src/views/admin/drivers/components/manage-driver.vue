@@ -54,7 +54,6 @@
             placeholder="Home Address"
             prepend
             prependIcon="Pin location"
-            :rules="[{ type: 'required', message: 'full name is required' }]"
           >
           </a-input-text>
         </b-col>
@@ -68,7 +67,7 @@
             type="number"
             prepend
             prependIcon="Phone"
-            :rules="[{ type: 'required', message: 'full name is required' }]"
+            :rules="[{ type: 'required', message: 'phone Number is required' }]"
           >
           </a-input-text>
         </b-col>
@@ -77,8 +76,7 @@
             name="dob"
             v-model="driverDto.dob"
             placeholder="DD/MM/YYYY"
-            :max-date="new Date()"
-            :rules="[{ type: 'required', message: 'full name is required' }]"
+            :max="new Date()"
           >
           </a-input-datepicker>
         </b-col>
@@ -91,8 +89,7 @@
             v-model="driverDto.genderType"
             placeholder="Gender"
             prepend
-            prependIcon="Arrow-Down 1"
-            :rules="[{ type: 'required', message: 'full name is required' }]"
+            prependIcon="Gender"
           >
           </a-input-select>
         </b-col>
@@ -104,7 +101,6 @@
             placeholder="Blood Type"
             prepend
             prependIcon="Blood"
-            :rules="[{ type: 'required', message: 'full name is required' }]"
           >
           </a-input-select>
         </b-col>
@@ -172,7 +168,7 @@ export default {
       return this.driverDto.id != nullGuid;
     },
     search(text) {
-      //this.getDrivers(text);
+      this.getDrivers({ text: text });
     },
     uploadThumbImage(file) {
       const reader = new FileReader();
@@ -201,6 +197,7 @@ export default {
               },
             });
           }
+          this.$refs.form.close();
         }
       });
     },

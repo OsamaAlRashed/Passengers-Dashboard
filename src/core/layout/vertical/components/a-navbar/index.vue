@@ -8,7 +8,7 @@
       ></i>
     </span>
     <!-- <language/> -->
-    <a-drop-down right :items="['auth.log-out']" class="ml-auto" v-if="isAdmin()">
+    <a-drop-down right :items="['auth.log-out']" class="ml-auto">
       <template slot="activaitor">
         <a-user-dropdown/>
       </template>

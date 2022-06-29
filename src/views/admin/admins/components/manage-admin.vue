@@ -56,7 +56,13 @@
               type="number"
               prepend
               prependIcon="Bag money"
-              :rules="[{ type: 'required', message: 'full name is required' }]"
+              :rules="[
+                { type: 'required', message: 'salary is required' },
+                {
+                  type: 'min_value:1',
+                  message: 'salary must be bigger than 0.',
+                },
+              ]"
             >
             </a-input-text>
           </b-col>
@@ -70,7 +76,9 @@
               type="number"
               prepend
               prependIcon="Phone"
-              :rules="[{ type: 'required', message: 'full name is required' }]"
+              :rules="[
+                { type: 'required', message: 'Phone number is required' },
+              ]"
             >
             </a-input-text>
           </b-col>
@@ -79,8 +87,7 @@
               name="dob"
               v-model="adminDto.dob"
               placeholder="DD/MM/YYYY"
-              :max-date="new Date()"
-              :rules="[{ type: 'required', message: 'full name is required' }]"
+              :max="new Date()"
             >
             </a-input-datepicker>
           </b-col>
@@ -93,7 +100,6 @@
               placeholder="Home Address"
               prepend
               prependIcon="Pin location"
-              :rules="[{ type: 'required', message: 'full name is required' }]"
             >
             </a-input-text>
           </b-col>
@@ -104,8 +110,7 @@
               v-model="adminDto.genderType"
               placeholder="Gender"
               prepend
-              prependIcon="Pin location"
-              :rules="[{ type: 'required', message: 'full name is required' }]"
+              prependIcon="Gender"
             >
             </a-input-select>
           </b-col>
@@ -168,7 +173,7 @@ export default {
       return this.adminDto.id != nullGuid;
     },
     search(text) {
-      this.getAdmins({ text: text});
+      this.getAdmins({ text: text });
     },
     uploadThumbImage(file) {
       const reader = new FileReader();
@@ -179,7 +184,7 @@ export default {
     },
     unValidThumbImage() {},
     submitForm(BvModalEvent) {
-      BvModalEvent.preventDefault()
+      BvModalEvent.preventDefault();
       this.$refs.observer.validate().then((success) => {
         if (success) {
           if (!this.isEdit()) {
@@ -197,9 +202,9 @@ export default {
               },
             });
           }
-          this.$refs.form.close()
+          this.$refs.form.close();
         }
-     });
+      });
     },
     resetDto() {
       this.$refs.observer.reset();

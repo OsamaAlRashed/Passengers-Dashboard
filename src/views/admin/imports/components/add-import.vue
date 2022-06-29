@@ -1,11 +1,13 @@
 <template>
-  <a-modal
+<validation-observer ref="observer">
+    <a-modal
     size="md"
     title="Add Import"
     btn_title="Add Import"
     placeholder="search"
     @search="search"
-    @ok="submitForm"
+    @ok="submitForm($event)"
+    ref="form"
   >
     <template slot="body">
       <a-input-select
@@ -13,6 +15,9 @@
         :options="importTypeList"
         v-model="importDto.type"
         placeholder="Select type"
+        :rules="[{ type: 'required', message: 'full name is required' }]"
+        prepend
+        prependIcon="Import"
       >
       </a-input-select>
       <a-input-select
@@ -21,6 +26,9 @@
         :options="driverList"
         v-model="importDto.userId"
         placeholder="Select a driver"
+        :rules="[{ type: 'required', message: 'full name is required' }]"
+        prepend
+        prependIcon="Profile"
       >
       </a-input-select>
       <a-input-text
@@ -28,27 +36,40 @@
         v-model="importDto.amount"
         placeholder="Amount of money"
         type="number"
+        prepend
+        prependIcon="Bag money"
+        :rules="[
+          { type: 'required', message: 'salary is required' },
+          {
+            type: 'min_value:1',
+            message: 'salary must be bigger than 0.',
+          },
+        ]"
       >
       </a-input-text>
       <a-input-datepicker
         name="date"
         v-model="importDto.date"
         placeholder="DD/MM/YYYY"
+        :rules="[{ type: 'required', message: 'full name is required' }]"
       >
       </a-input-datepicker>
       <a-input-text
         name="note"
         v-model="importDto.note"
         placeholder="Write Note"
+        prepend
+        prependIcon="File"
       >
       </a-input-text>
     </template>
   </a-modal>
+</validation-observer>
+
 </template>
 <script>
 import fileDragDrop from "@core/components/file-drag-drop/file-drag-drop.vue";
 import { mapActions, mapState } from "vuex";
-import { nullGuid } from "@core/util/global";
 export default {
   computed: {
     ...mapState({ genders: (state) => state.global.genders }),
@@ -72,19 +93,26 @@ export default {
     this.getImportTypes()
   },
   methods: {
-    ...mapActions(["getDriverList", "import", "getImportTypes"]),
+    ...mapActions(["getImports", "getDriverList", "import", "getImportTypes"]),
     search(text) {
-      //this.getAdmins(text);
+      this.getImports({ search: text});
     },
-    submitForm() {
-      this.import({
-        dto: this.importDto,
-        cb: () => {
-          this.resetDto();
-        },
-      });
+    submitForm(BvModalEvent) {
+      BvModalEvent.preventDefault();
+      this.$refs.observer.validate().then((success) => {
+        if (success) {
+          this.import({
+            dto: this.importDto,
+            cb: () => {
+              this.resetDto();
+            },
+          });
+          this.$refs.form.close()
+        }
+      })
     },
     resetDto() {
+      this.$refs.observer.reset();
       Object.assign(this.importDto, {
         date: new Date(),
         amount: 0,

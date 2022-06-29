@@ -16,7 +16,7 @@
           >
           </b-img>
         </template>
-        <template slot="items.deliveryShopStatus" slot-scope="{ value }">
+        <template slot="items.orderStatus" slot-scope="{ value }">
           <b-badge :variant="value == 0 ? 'danger' : 'success'">{{
             value == 0 ? "No" : "Yes"
           }}</b-badge>
@@ -158,7 +158,7 @@ export default {
       },
       {
         label: "Delivery",
-        field: "deliveryShopStatus",
+        field: "orderStatus",
       },
       {
         label: "Status",
@@ -180,7 +180,7 @@ export default {
       days: "",
       time: "",
       contacts: [],
-      deliveryShopStatus: 0,
+      orderStatus: false,
     },
     isShopDetails: false,
   }),
@@ -218,7 +218,7 @@ export default {
           ? ""
           : currentShop.fromTime + " - " + currentShop.toTime;
       this.shopDto.deliveryStatus =
-        currentShop.deliveryShopStatus == 0
+        currentShop.orderStatus == 0
           ? "Delivery Unavilable"
           : "Delivery avilable";
       this.shopDto.address = currentShop.address?.text ?? "";
