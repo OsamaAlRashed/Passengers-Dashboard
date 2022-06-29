@@ -1,7 +1,7 @@
 <template>
   <b-card
     class="mb-4"
-    style="border-radius: 16px; background-color: #ffffff; height: 158px"
+    style=" height: 158px"
   >
     <a @click="$emit('action', $event)" style="cursor: pointer;">
       <b-img
