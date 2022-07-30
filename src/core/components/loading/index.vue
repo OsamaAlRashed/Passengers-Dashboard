@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column align-center justify-center loading-container">
+  <div class="d-flex flex-column align-items-center justify-content-center loading-container">
     <!-- <img src="@/assets/images/vectors/fox-head.svg" width="80" /> -->
     <div class="lds-ellipsis">
       <div></div>
@@ -41,7 +41,7 @@ export default {
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #ff5f54;
+  background: #263284;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .lds-ellipsis div:nth-child(1) {
@@ -84,4 +84,5 @@ export default {
     transform: translate(24px, 0);
   }
 }
+
 </style>

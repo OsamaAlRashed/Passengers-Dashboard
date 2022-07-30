@@ -8,7 +8,7 @@
           <router-view name="router-action"/>
         </a-bradcrumb>
         <div
-          class="content-container py-3"
+          class="content-container py-3 position-relative"
           :class="{ 'overflow-hidden': isMainLoading }"
         >
           <transition name="scale-transition">

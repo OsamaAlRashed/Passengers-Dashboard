@@ -3,33 +3,22 @@
 </template>
 <style lang="scss">
 #map {
-  height: calc(100vh - 122px);
-  width: calc(100% + 16px);
-  margin: -16px;
+  height: calc(100vh - 162px);
+  width: 100%;
 }
 </style>
 <script>
 import { Loader } from "@googlemaps/js-api-loader";
 import { $_themeConfig } from "@themeConfig";
 export default {
+  props: {
+    myLatlng: Object
+  },
   data: () => ({
-    myLatlng: {
-      lat: 36.204,
-      lng: 37.135,
-    },
     zoom: 13,
     map: null,
+    marker: null
   }),
-  props:{
-    lat: {
-        type: String,
-        default: () => "36.204"
-    },
-    lng: {
-        type: String,
-        default: () => "37.135"
-    },
-  },
   created() {
     this.initMap();
   },
@@ -49,6 +38,31 @@ export default {
         });
       });
     },
+    setMarker(latLog) {
+      var center = new google.maps.LatLng(latLog.lat, latLog.lng);
+          // move info window to center
+      this.map.panTo(center);
+      if(!this.marker) {
+        this.marker = new google.maps.Marker({
+          position: {
+            lat: latLog.lat,
+            lng: latLog.lng
+          },
+          map: this.map
+        })
+      } else {
+        const latLag = new google.maps.LatLng(latLog.lat, latLog.lng)
+        this.marker.setPosition(latLag)
+      }
+    }
   },
+  watch: {
+    myLatlng: {
+      deep: true,
+      handler(v) {
+        this.setMarker(v)
+      }
+    }
+  }
 };
 </script>

@@ -40,7 +40,10 @@
     </b-col>
     <b-col cols="4">
       <b-card>
-        <map-viewer></map-viewer>
+        <map-viewor :myLatlng="{
+          lat: +dto.lat,
+          lng: +dto.lng
+        }"></map-viewor>
       </b-card>
     </b-col>
     <b-modal
@@ -124,11 +127,11 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import { nullGuid } from "@core/util/global";
-import mapViewer from "./components/map.vue";
+import mapViewor from "./components/map.vue";
 
 export default {
   components: {
-    mapViewer,
+    mapViewor,
   },
   computed: {
     ...mapState({ shops: (state) => state.shops.shops }),
@@ -138,6 +141,10 @@ export default {
   },
 
   data: () => ({
+    dto: {
+      lat: 0,
+      lng: 0
+    },
     columns: [
       {
         label: "",
@@ -228,6 +235,9 @@ export default {
     },
     map(e, props){
       e.stopPropagation();
+      this.dto.lat = props.row.address.lat;
+      this.dto.lng = props.row.address.long;
+
     },
     getDefaultImage(){
       return require(`@/assets/images/default image/Shop.svg`);

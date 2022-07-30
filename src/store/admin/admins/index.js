@@ -8,9 +8,11 @@ export default {
 
     actions:{
         getAdmins({commit}, payload){
+            commit("Set_Main_Loading", true);
             var url = 'Admin/Get' + (payload ? `?search=${payload.text}` : '');
             api.get(url, ({data}) => {
                 commit('Get_Admins', data);
+                commit("Set_Main_Loading", false);
             }, { success: "Ok", error: "Error"})
         },
 

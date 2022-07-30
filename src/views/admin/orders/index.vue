@@ -3,56 +3,62 @@
     <b-row>
         <b-col>
             <p>Recived</p>
-            <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
-            </order-card>
-            <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
+            <order-card v-for="(order, index) in orders.filter(x => x.status == 1)" :key="index" class="my-3" 
+                :name="order.fullName" :phoneNumber="order.phoneNumber" 
+                :serialNumber="order.serialNumber" :time="order.time" :id="order.id"
+                :imagePath="order.imagePath">
             </order-card>
         </b-col>
         <b-col>
            <p>Unassigned</p>
-            <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
-            </order-card>
-            <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
+           <order-card v-for="(order, index) in orders.filter(x => x.status == 2)" :key="index" class="my-3" 
+                name="Unassigned" phoneNumber="*********" 
+                :serialNumber="order.serialNumber" :time="order.time" :id="order.id"
+                :imagePath="order.imagePath">
             </order-card>
         </b-col>
         <b-col>
            <p>Assigned</p>
-            <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
-            </order-card>
-            <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
-            </order-card>
-               <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
-            </order-card>
-               <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
+           <order-card v-for="(order, index) in orders.filter(x => x.status == 3)" :key="index" class="my-3" 
+                :name="order.fullName" :phoneNumber="order.phoneNumber" 
+                :serialNumber="order.serialNumber" :time="order.time" :id="order.id"
+                :imagePath="order.imagePath">
             </order-card>
         </b-col>
         <b-col>
             <p>Collected</p>
-            <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
-            </order-card>
-            <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
-            </order-card>
-               <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
+            <order-card v-for="(order, index) in orders.filter(x => x.status == 4)" :key="index" class="my-3" 
+                :name="order.fullName" :phoneNumber="order.phoneNumber" 
+                :serialNumber="order.serialNumber" :time="order.time" :id="order.id"
+                :imagePath="order.imagePath">
             </order-card>
         </b-col>
         <b-col>
            <p>Completed</p>
-            <order-card class="my-3" name="Osama AlRashed" phoneNumber="0956057886" serialNumber="A93243" time="20">
+           <order-card v-for="(order, index) in orders.filter(x => x.status == 5)" :key="index" class="my-3" 
+                :name="order.fullName" :phoneNumber="order.phoneNumber" 
+                :serialNumber="order.serialNumber" :time="order.time" :id="order.id"
+                :imagePath="order.imagePath">
             </order-card>
         </b-col>
     </b-row>
 </div>
-
-
 </template>
 <script>
 import orderCard from "../../components/orderCard.vue"
-
+import { mapActions, mapState } from "vuex";
 export default {
+    computed: {
+        ...mapState({ orders: (state) => state.orders.orders }),
+    },
+    created() {
+        this.getOrders();
+    },
+    methods: {
+    ...mapActions(["getOrders"])
+    },
     components:{
         orderCard
     },
-    
 }
-
 </script>

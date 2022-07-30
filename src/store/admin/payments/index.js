@@ -10,6 +10,7 @@ export default {
 
     actions:{
         getSalaries({commit}, payload){
+            commit("Set_Main_Loading", true);
             var queryString = "?";
             if(payload != null){
                 if(payload.year != null){
@@ -30,9 +31,11 @@ export default {
             var url = `Payment/GetSalaries${queryString}`;
             api.get(url, ({data}) => {
                 commit('Get_Salaries', data);
+                commit("Set_Main_Loading", false);
             }, { success: "Ok", error: "Error"})
         },
         getImports({commit}, payload){
+            commit("Set_Main_Loading", true);
             var queryString = "?";
             if(payload != null){
                 if(payload.year != null){
@@ -52,9 +55,11 @@ export default {
             var url = `Payment/GetImports${queryString}`;
             api.get(url, ({data}) => {
                 commit('Get_Imports', data);
+                commit("Set_Main_Loading", false);
             }, { success: "Ok", error: "Error"})
         },
         getExports({commit}, payload){
+            commit("Set_Main_Loading", true);
             var queryString = "?";
             if(payload != null){
                 if(payload.year != null){
@@ -73,6 +78,7 @@ export default {
             }
             var url = `Payment/GetExports${queryString}`;
             api.get(url, ({data}) => {
+                commit("Set_Main_Loading", false);
                 commit('Get_Exports', data);
             }, { success: "Ok", error: "Error"})
         },

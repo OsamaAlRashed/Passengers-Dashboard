@@ -1,6 +1,6 @@
 <template>
   <b-card
-    style="border-radius: 16px; background-color: #ffffff; cursor: pointer;"
+    style="cursor: pointer;"
     @click="getDetails(id)"
   >
     <p style="font-size: 12px;" class="py-2">Time spent in this status {{ time }} min</p>
@@ -44,10 +44,9 @@ p {
 
 
 <script>
-import { nullGuid } from "@core/util/global";
 export default {
   props: {
-    id: nullGuid,
+    id: null,
     serialNumber: String,
     time: Number,
     name: String,

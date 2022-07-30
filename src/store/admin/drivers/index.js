@@ -8,9 +8,11 @@ export default {
 
     actions:{
         getDrivers({commit}, payload){
+            commit("Set_Main_Loading", true);
             var url = 'Driver/Get' + (payload ? `?search=${payload.text}` : '');
             api.get(url, ({data}) => {
                 commit('Get_Drivers', data);
+                commit("Set_Main_Loading", false);
             }, { success: "Ok", error: "Error"})
         },
 
