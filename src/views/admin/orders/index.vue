@@ -45,13 +45,19 @@
 </div>
 </template>
 <script>
+import { OrderHub } from "@/libs/order-hub";
 import orderCard from "../../components/orderCard.vue"
 import { mapActions, mapState } from "vuex";
 export default {
     computed: {
         ...mapState({ orders: (state) => state.orders.orders }),
     },
+    data: () => ({
+        connection: null
+    }),
     created() {
+        this.orderHub = new OrderHub();
+        this.connection = this.orderHub.startSignalR();
         this.getOrders();
     },
     methods: {

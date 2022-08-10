@@ -11,7 +11,6 @@ export default [{
     name: "admin home",
     components: {
       default: () => import("@/views/admin/home"),
-      action: () => import("@/views/admin/home/actions/nav-action"),
     },
     meta: () => ({
       roles: [Admin],

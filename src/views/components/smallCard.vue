@@ -1,6 +1,7 @@
 <template>
   <b-card
-    class="mb-4"
+  
+    :class="myClass"
     style=" height: 158px"
   >
     <a @click="$emit('action', $event)" style="cursor: pointer;">
@@ -33,6 +34,7 @@ export default {
     mainIcon: String,
     mainText: String,
     descreptionText: String,
+    myClass: String
   },
 };
 </script>

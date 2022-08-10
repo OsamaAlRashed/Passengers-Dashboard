@@ -4,6 +4,11 @@ export default [
     header: "menu",
   },
   {
+    title: "home",
+    to: "/home",
+    roles: [All],
+  },
+  {
     title: "orders",
     to: "/orders",
     roles: [All],

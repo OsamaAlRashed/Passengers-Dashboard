@@ -13,6 +13,7 @@
     "@googlemaps/js-api-loader": "^1.12.9",
     "@mathieustan/vue-datepicker": "^0.2.11",
     "@mdi/font": "^6.2.95",
+    "@microsoft/signalr": "^6.0.7",
     "@vue/composition-api": "^1.2.4",
     "a-v-datatable": "^1.0.11",
     "animate.css": "^4.1.1",

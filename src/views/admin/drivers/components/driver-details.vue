@@ -75,6 +75,7 @@
               mainIcon="Coin"
               :descreptionText="driverDetailsDto.fixedAmount + ' SYP'"
               @action="test"
+              :class="'mb-4'"
             ></small-card>
           </b-col>
           <b-col cols="4">
@@ -84,6 +85,7 @@
               mainIcon="Motorcycle"
               :descreptionText="driverDetailsDto.deliveryAmount + ' SYP'"
               @action="test"
+              :class="'mb-4'"
             ></small-card>
           </b-col>
           <b-col cols="4"> 
@@ -93,6 +95,7 @@
               mainIcon="Bag money"
               :descreptionText="driverDetailsDto.totalAmount + ' SYP'"
               @action="test"
+              :class="'mb-4'"
             ></small-card>
           </b-col>
           <b-col cols="4">
@@ -101,6 +104,7 @@
               mainIcon="Bag money"
               :descreptionText="driverDetailsDto.orderCount + ' Orders'"
               @action="test"
+              :class="'mb-4'"
             ></small-card>
           </b-col>
           <b-col cols="4">
@@ -109,6 +113,7 @@
               mainIcon="Time circle"
               :descreptionText="getTime(driverDetailsDto.onlineTime)"
               @action="test"
+              :class="'mb-4'"
             ></small-card>  
           </b-col>
         </b-row>

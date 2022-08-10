@@ -24,7 +24,7 @@ export default {
             , null, payload.cb, { success: "Ok", error: "Error"})
         },
         refuse(ctx, payload){
-            api.put('Order/Accept?orderId=' + payload.orderId
+            api.put('Order/Refuse?orderId=' + payload.orderId + "&reasonRefuse=" + payload.reasonRefuse
             , null, payload.cb, { success: "Ok", error: "Error"})
         }
     },

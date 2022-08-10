@@ -4,6 +4,7 @@ import admins from "./admins";
 import payments from "./payments";
 import drivers from "./drivers";
 import orders from "./orders";
+import home from "./home";
 
 export default {
   global,
@@ -11,5 +12,6 @@ export default {
   admins,
   payments,
   drivers,
-  orders
+  orders,
+  home
 }

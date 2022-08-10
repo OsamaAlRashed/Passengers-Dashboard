@@ -56,7 +56,7 @@
               </a-input-text>
             </b-col>
             <div class="d-flex" style="width: 100%; justify-content: right">
-              <button class="btn btn-danger" @click="submitRefuse">Refuse</button>
+              <button class="btn btn-danger" @click="openRefuse">Refuse</button>
               <button class="btn btn-primary mx-3" @click="submitAccept">
                 Accept
               </button>
@@ -111,6 +111,29 @@
           </map-viewer>
       </b-card>
     </b-col>
+    <validation-observer ref="observer">
+          <b-modal
+      title="Refuse Order"
+      v-model="isRefuseOpen"
+      content-class="rounded-xl"
+      shadow
+      bg-variant="white"
+      @ok="submitRefuse($event)"
+    >
+      <a-input-text
+        name="reasonRefuse"
+        v-model="reasonRefuse"
+        placeholder="Reason Refuse"
+        prepend
+        prependIcon="File"
+        :rules="[
+          { type: 'required', message: 'reason is required' },
+        ]"
+      >
+      </a-input-text>
+    </b-modal>
+    </validation-observer>
+
   </b-row>
 </template>
 <style scoped>
@@ -152,6 +175,8 @@ export default {
       customer: {},
       driver: {},
     },
+    reasonRefuse: "",
+    isRefuseOpen: false
   }),
   props: {
     orderId: {
@@ -180,13 +205,23 @@ export default {
         }
       })
     },
-    submitRefuse() {
-      this.refuse({
-        orderId: this.orderId,
-        cb: () => {
-          this.$router.push("/orders");
-        },
+    openRefuse(){
+      this.isRefuseOpen = true;
+    },
+    submitRefuse(BvModalEvent) {
+      BvModalEvent.preventDefault();
+      this.$refs.observer.validate().then((success) => {
+        if (success) {
+          this.refuse({
+            orderId: this.orderId,
+            reasonRefuse: this.reasonRefuse,
+            cb: () => {
+              this.$router.push("/orders");
+            },
+          })
+        }
       })
+      
     },
   },
 };
