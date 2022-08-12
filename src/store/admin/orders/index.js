@@ -7,9 +7,9 @@ export default {
     },
 
     actions:{
-        getOrders({commit}){
+        getOrders({commit}, payload){
             commit("Set_Main_Loading", true);
-            var url = 'Order/GetOrdersBoard';
+            var url = `Order/GetOrdersBoard?search=${payload}`;
             api.get(url, ({data}) => {
                 commit('Get_Orders', data);
                 commit("Set_Main_Loading", false);

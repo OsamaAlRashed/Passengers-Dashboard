@@ -4,7 +4,7 @@
       <label>Km price</label>
       <a-input-text
         name="price"
-        v-model="settingDto.kmPrice"
+        v-model="settingsDto.kmPrice"
         placeholder="Km price"
         type="number"
         prepend
@@ -24,23 +24,35 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 export default {
   computed: {
     ...mapState({ settingDto: (state) => state.settings.settingDto }),
   },
   created() {
-    this.getSettings();
+    this.getSettings(
+      {
+        cb: ({ data }) => {
+              console.log(data)
+              Object.assign(this.settingsDto, data);
+              this.Set_Main_Loading(false)
+            },
+      }
+    );
   },
-  data: () => ({}),
+  data: () => ({
+    settingsDto:{
+      kmPrice: 0
+    }
+  }),
   methods: {
     ...mapActions(["getSettings", "setSettings"]),
+     ...mapMutations(["Set_Main_Loading"]),
     submitForm() {
       this.$refs.observer.validate().then((success) => {
         if (success) {
           this.setSettings({
-            price: this.settingDto.kmPrice,
-            cb: () => {},
+            price: this.settingsDto.kmPrice,
           });
         }
       });

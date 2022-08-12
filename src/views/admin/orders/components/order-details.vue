@@ -1,9 +1,18 @@
 <template>
   <b-row>
     <b-col>
+      <b-card class="mb-3 pt-2">
+          <div class="d-flex align-items-center" style="justify-content: space-around">
+           <p><strong>Order No: </strong>{{orderDetailsDto.serialNumber}}</p>
+           <b-badge variant="warning">
+            <p style="font-size: 14px; color: #fff;">{{ getStatus(orderDetailsDto.status) }}</p>
+          </b-badge>
+          <span></span>
+        </div>
+      </b-card>
       <b-card class="mb-3">
         <strong>Products details</strong>
-        <div style="height: 300px; overflow: auto;">
+        <div style="max-height: 300px; overflow: auto;">
           <product-card
             v-for="(product, index) in orderDetailsDto.details.products"
             :key="index"
@@ -66,7 +75,9 @@
       </b-card>
     </b-col>
     <b-col>
-      <user-info-card
+      <b-row>
+        <b-col>
+          <user-info-card
         class="mb-2"
         :id="orderDetailsDto.customer.id"
         :imagePath="orderDetailsDto.customer.imagePath"
@@ -74,7 +85,10 @@
         :name="orderDetailsDto.customer.name"
       >
       </user-info-card>
-      <user-info-card
+
+        </b-col>
+        <b-col>
+          <user-info-card
         class="mb-2"
         :id="orderDetailsDto.shop.id"
         :imagePath="orderDetailsDto.shop.imagePath"
@@ -82,6 +96,8 @@
         :name="orderDetailsDto.shop.name"
       >
       </user-info-card>
+        </b-col>
+      </b-row>
       <user-info-card
         class="mb-2"
         v-if="orderDetailsDto.driver != null"
@@ -106,7 +122,7 @@
           ></b-img>
           <p>{{ orderDetailsDto.customer.note }}</p>
         </div>
-        <map-viewer v-if="orderDetailsDto.id != nullGuid" :start="{ lat: +orderDetailsDto.shop.lat, lng: +orderDetailsDto.shop.lng }"
+        <map-viewer style="max-height: 900px;" v-if="orderDetailsDto.id != nullGuid" :start="{ lat: +orderDetailsDto.shop.lat, lng: +orderDetailsDto.shop.lng }"
             :end="{ lat: +orderDetailsDto.customer.lat, lng: +orderDetailsDto.customer.lng }">
           </map-viewer>
       </b-card>
@@ -223,6 +239,13 @@ export default {
         }
       })
       
+    },
+    getStatus(number){
+      if(number == 1) return "Received";
+      if(number == 2) return "Unassigned";
+      if(number == 3) return "Assigned";
+      if(number == 4) return "Collected";
+      if(number == 5) return "Completed";
     },
     ...mapMutations(["Set_Main_Loading"])
   },

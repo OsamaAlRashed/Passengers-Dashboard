@@ -26,6 +26,7 @@ export default [{
     name: "orders",
     components: {
       default: () => import("@/views/admin/orders"),
+      action: () => import("@/views/admin/orders/actions/nav-action")
     },
     meta: () => ({
       roles: [Admin],

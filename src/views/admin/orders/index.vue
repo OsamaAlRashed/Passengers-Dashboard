@@ -71,7 +71,7 @@ export default {
     created() {
         this.orderHub = new OrderHub();
         this.connection = this.orderHub.startSignalR();
-        this.getOrders();
+        this.getOrders("");
     },
     methods: {
     ...mapActions(["getOrders"]),
