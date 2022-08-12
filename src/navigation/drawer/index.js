@@ -46,6 +46,12 @@ export default [
       title: "exports",
       to: "/exports",
       roles: [All],
-    }]
+    },
+  ]
   },
+  {
+    title: "settings",
+    to: "/settings",
+    roles: [All],
+  }
 ];

@@ -8,7 +8,8 @@
     "salaries": "salaries",
     "imports": "imports",
     "exports": "exports",
-    "orders": "orders board"
+    "orders": "orders board",
+    "settings": "settings"
   },
   "breadcrumb": {
     "home": "home", 
@@ -19,7 +20,8 @@
     "salaries": "salaries",
     "imports": "imports",
     "exports": "exports",
-    "orders": "orders board"
+    "orders": "orders board",
+    "settings": "settings"
   },
   "files": {
     "title": "(drag and drop) or click to upload"

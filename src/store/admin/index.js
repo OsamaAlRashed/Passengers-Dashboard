@@ -5,6 +5,7 @@ import payments from "./payments";
 import drivers from "./drivers";
 import orders from "./orders";
 import home from "./home";
+import settings from "./settings";
 
 export default {
   global,
@@ -13,5 +14,6 @@ export default {
   payments,
   drivers,
   orders,
-  home
+  home,
+  settings
 }

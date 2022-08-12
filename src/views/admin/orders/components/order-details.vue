@@ -142,7 +142,7 @@
 }
 </style>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import productCard from "../../../components/productCard.vue";
 import userInfoCard from "../../../components/userInfoCard.vue";
 import mapViewer from "./map.vue";
@@ -159,6 +159,7 @@ export default {
       id: this.orderId,
       cb: ({ data }) => {
         Object.assign(this.orderDetailsDto, data);
+        this.Set_Main_Loading(false)
       },
     });
   },
@@ -223,6 +224,7 @@ export default {
       })
       
     },
+    ...mapMutations(["Set_Main_Loading"])
   },
 };
 </script>

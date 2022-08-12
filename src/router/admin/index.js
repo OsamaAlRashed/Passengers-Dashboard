@@ -4,7 +4,7 @@ import {
 // import { nullGuid } from "@core/util/global/index.js";
 export default [{
     path: "",
-    redirect: "/orders",
+    redirect: "/home",
   },
   {
     path: "home",
@@ -176,6 +176,21 @@ export default [{
       layout: "vertical",
       breadcrumb: [{
         text: "exports",
+        active: true,
+      }, ],
+    }),
+  },
+  {
+    path: "settings",
+    name: "settings",
+    components: {
+      default: () => import("@/views/admin/settings"),
+    },
+    meta: () => ({
+      roles: [Admin],
+      layout: "vertical",
+      breadcrumb: [{
+        text: "settings",
         active: true,
       }, ],
     }),

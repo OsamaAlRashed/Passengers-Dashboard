@@ -16,7 +16,7 @@ export default {
             }, { success: "Ok", error: "Error"})
         },
         getOrderDetails(ctx, payload){
-            api.get('Order/GetOrderDashboardDetails?id=' + payload.id, payload.cb, { success: "Ok", error: "Error"})
+            api.get('Order/GetOrderDashboardDetails?id=' + payload.id, payload.cb , { success: "Ok", error: "Error"})
         },
         accept(ctx, payload){
             api.put('Order/Accept?orderId=' + payload.orderId + "&deliveryCost=" + payload.cost 

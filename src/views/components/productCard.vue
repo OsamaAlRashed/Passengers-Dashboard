@@ -2,7 +2,7 @@
   <b-card
     style="border-radius: 16px; background-color: #ffffff;"
   >
-      <div class="d-flex">
+      <div class="d-flex align-items-center">
         <b-img
           class="mr-5"
           style="border-radius: 16px;"

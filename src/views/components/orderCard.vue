@@ -3,7 +3,7 @@
     style="cursor: pointer;"
     @click="getDetails(id)"
   >
-    <p style="font-size: 12px;" class="py-2">Time spent in this status {{ time }} min</p>
+    <p style="font-size: 12px;" class="py-2">Time spent in this status {{ time }}</p>
     <div
         style="
           border-radius: 16px;
@@ -48,7 +48,7 @@ export default {
   props: {
     id: null,
     serialNumber: String,
-    time: Number,
+    time: String,
     name: String,
     phoneNumber: String,
     imagePath: String,
@@ -56,6 +56,7 @@ export default {
   methods:{
     getDetails(id){
       this.$router.push("/orders/" + id);
+      this.$store.commit("Set_Main_Loading", true);
     },
     getDefaultImage(){
         return require(`@/assets/images/default image/Male.svg`);

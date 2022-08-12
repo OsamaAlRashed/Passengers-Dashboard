@@ -244,9 +244,7 @@ export default {
               show: false,
             },
           },
-          stroke: {
-            curve: "smooth",
-          },
+          
         },
       },
       statisticsExport: {
