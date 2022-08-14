@@ -50,7 +50,7 @@
         <b-col cols="6">
           <a-input-text
             name="address"
-            v-model="driverDto.address"
+            v-model="driverDto.addressText"
             placeholder="Home Address"
             prepend
             prependIcon="Pin location"
