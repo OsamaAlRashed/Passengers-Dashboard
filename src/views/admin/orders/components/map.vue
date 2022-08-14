@@ -69,7 +69,7 @@ export default {
             directions: response,
             suppressMarkers: true,
             polylineOptions: {
-              strokeColor: "#00b894"
+              strokeColor: "#263284"
             },
             hideRouteList: false
           });

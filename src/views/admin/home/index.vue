@@ -224,7 +224,6 @@ export default {
             enabled: false,
           },
           colors: ["#4bc953"],
-
           xaxis: {
             labels: {
               show: false,
@@ -244,7 +243,9 @@ export default {
               show: false,
             },
           },
-          
+          stroke: {
+            curve: "smooth",
+          },
         },
       },
       statisticsExport: {
@@ -295,7 +296,6 @@ export default {
             enabled: false,
           },
           colors: ["#e81721"],
-
           xaxis: {
             labels: {
               show: false,

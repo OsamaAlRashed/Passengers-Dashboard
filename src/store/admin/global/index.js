@@ -131,7 +131,39 @@ export default {
       state.exportTypeList = payload;
     },
     Get_BloodTypes(state, payload){
-      state.bloodTypeList = payload;
+      //state.bloodTypeList = payload;
+      state.bloodTypeList = [{
+        id: 1,
+        name: "A+",
+      },
+      {
+        id: 2,
+        name: "B+",
+      },
+      {
+        id: 3,
+        name: "AB+",
+      },
+      {
+        id: 4,
+        name: "O+",
+      },
+      {
+        id: 5,
+        name: "A-",
+      },
+      {
+        id: 6,
+        name: "B-",
+      },
+      {
+        id: 7,
+        name: "AB-",
+      },
+      {
+        id: 8,
+        name: "O-",
+      }]
     },
   },
 };

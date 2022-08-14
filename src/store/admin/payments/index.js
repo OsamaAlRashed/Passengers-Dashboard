@@ -148,29 +148,32 @@ export default {
                 state.salaries[state.salaries.findIndex(c => c.id == payload.dto.id)].note = payload.dto.note;
                 state.salaries[state.salaries.findIndex(c => c.id == payload.dto.id)].amount = payload.dto.amount;
                 state.salaries[state.salaries.findIndex(c => c.id == payload.dto.id)].date = payload.dto.date;
+                state.salaries[state.salaries.findIndex(c => c.id == payload.dto.id)].dateUpdated = new Date();
             }
             else if(payload.type == "import"){
                 state.imports[state.imports.findIndex(c => c.id == payload.dto.id)].note = payload.dto.note;
                 state.imports[state.imports.findIndex(c => c.id == payload.dto.id)].amount = payload.dto.amount;
                 state.imports[state.imports.findIndex(c => c.id == payload.dto.id)].date = payload.dto.date;
+                state.imports[state.imports.findIndex(c => c.id == payload.dto.id)].dateUpdated = new Date();
             }
             else if(payload.type == "export"){
                 state.exports[state.exports.findIndex(c => c.id == payload.dto.id)].note = payload.dto.note;
                 state.exports[state.exports.findIndex(c => c.id == payload.dto.id)].amount = payload.dto.amount;
                 state.exports[state.exports.findIndex(c => c.id == payload.dto.id)].date = payload.dto.date;
+                state.exports[state.exports.findIndex(c => c.id == payload.dto.id)].dateUpdated = new Date();
             }
             
         },
 
         Delete_Payment(state, payload){
             if(payload.type == "salary"){
-                state.salaries.splice(state.salaries.findIndex(c => c.id == payload.id) , 1);
+                state.salaries[state.salaries.findIndex(c => c.id == payload.id)].dateDeleted = new Date();
             }
             else if(payload.type == "import"){
-                state.imports.splice(state.imports.findIndex(c => c.id == payload.id) , 1);
+                state.imports[state.imports.findIndex(c => c.id == payload.id)].dateDeleted = new Date();
             }
             else if(payload.type == "export"){
-                state.exports.splice(state.exports.findIndex(c => c.id == payload.id) , 1);
+                state.exports[state.exports.findIndex(c => c.id == payload.id)].dateDeleted = new Date();
             }
         }
     }
