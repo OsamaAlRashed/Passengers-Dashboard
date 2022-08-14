@@ -214,7 +214,7 @@ export default {
         currentShop.fromDay == null || currentShop.toDay == null
           ? ""
           : this.dayList[
-              this.dayList.findIndex((x) => x.id == currentShop.fromDay)
+              this.dayList.findIndex((x) => x.id == currentShop.fromDay) < 0 ? 0 : this.dayList.findIndex((x) => x.id == currentShop.fromDay)
             ].name +
             " to " +
             this.dayList[
